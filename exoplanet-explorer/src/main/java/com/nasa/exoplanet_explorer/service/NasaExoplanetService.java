@@ -3,14 +3,19 @@ package com.nasa.exoplanet_explorer.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.nasa.exoplanet_explorer.model.Exoplanet;
+import com.nasa.exoplanet_explorer.repository.ExoplanetRepository;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
+@RequiredArgsConstructor
 public class NasaExoplanetService {
+    private final ExoplanetRepository exoplanetRepository;
     private static final String NASA_API_URL =
             "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=" +
                     "select+pl_name,pl_rade,pl_bmasse,pl_dens,pl_eqt,pl_insol,discoverymethod,disc_year+" +
@@ -55,6 +60,11 @@ public class NasaExoplanetService {
                     double esi = calculateESI(planet);
 
                     if(esi > 0.8) {
+                        if(!exoplanetRepository.existsByName(planet.getPlName())) {
+                            Exoplanet exoplanet = mapToEntity(planet, esi);
+                            exoplanetRepository.save(exoplanet);
+                            System.out.println("SAVED: " + exoplanet.getName() + " ESI: " + String.format("%.3f" , esi));
+                        }
                         System.out.printf("Candidate: %-20s | ESI: %.3f%n" , planet.getPlName(), esi);
                     }
                 }
@@ -91,6 +101,23 @@ public class NasaExoplanetService {
         } else {
             return 0.0;
         }
+    }
+
+    private Exoplanet mapToEntity(NasaPlanetDTO dto, double esi) {
+        Exoplanet planet = new Exoplanet();
+
+        planet.setName(dto.getPlName());
+        planet.setRadius(dto.getPlRade());
+        planet.setDensity(dto.getPlDens());
+        planet.setMass(dto.getPlBmasse());
+        planet.setDiscoveryYear(dto.getDiscYear());
+        planet.setEquilibriumTemp(dto.getPlEqt());
+        planet.setDiscoveryMethod(dto.getDiscoveryMethod());
+        planet.setFlux(dto.getPlInsol());
+
+        planet.setEsiScore(esi);
+
+        return planet;
     }
 }
 

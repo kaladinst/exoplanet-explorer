@@ -1,35 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {useState, useEffect } from  'react'
+import "./App.css"
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [planets, setPlanets] = useState([])
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    useEffect(() => {
+        fetch("http://localhost:8080/api/planets/top-10")
+            .then(response => response.json())
+            .then(data => {
+                console.log("Data received: " , data)
+                setPlanets(data)
+            })
+
+    }, []);
+
+    return (
+        <div className="container">
+            <h1>🪐 Exoplanet Explorer</h1>
+            <p>Found {planets.length} habitable candidates.</p>
+
+            <div className="card-grid">
+                {planets.map(planet => (
+                    <div key={planet.id} className="planet-card">
+                        <h2>{planet.name}</h2>
+                        <div className="stats">
+                            <p><strong>ESI:</strong> {planet.esiScore.toFixed(3)}</p>
+                            <p><strong>Radius:</strong> {planet.radius} x Earth</p>
+                            <p><strong>Year Discovered:</strong> {planet.discoveryYear}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    )
+    
 }
 
 export default App

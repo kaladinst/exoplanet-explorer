@@ -50,8 +50,13 @@ public class NasaExoplanetService {
         NasaPlanetDTO[] planetResponse = restTemplate.getForObject(NASA_API_URL, NasaPlanetDTO[].class);
 
         if(planetResponse != null && planetResponse.length != 0) {
+            System.out.println("✅ FETCHED " + planetResponse.length + " PLANETS");
                 for(NasaPlanetDTO planet : planetResponse) {
-                    System.out.println(planet.getPlName());
+                    double esi = calculateESI(planet);
+
+                    if(esi > 0.8) {
+                        System.out.printf("Candidate: %-20s | ESI: %.3f%n" , planet.getPlName(), esi);
+                    }
                 }
         } else {
             System.out.println("No Data Found");
@@ -75,8 +80,13 @@ public class NasaExoplanetService {
             double mass = dto.getPlBmasse();
 
             double escapeVel = Math.sqrt(mass / radius);
-            
-            return 2;
+
+            double radiusScore = calculateComponent(radius, 1.0, 0.57);
+            double densityScore = calculateComponent(density, 5.51, 1.07);
+            double escapeVelScore = calculateComponent(escapeVel, 1.0, 0.70);
+            double tempScore = calculateComponent(temp, 288.0, 5.58);
+            double result = radiusScore * densityScore* escapeVelScore* tempScore;
+            return result;
 
         } else {
             return 0.0;

@@ -58,6 +58,30 @@ public class NasaExoplanetService {
             return;
         }
     }
+
+    private double calculateComponent(double planetValue , double earthValue, double weight) {
+        double top = Math.abs(planetValue - earthValue);
+        double bottom = planetValue + earthValue;
+        double fraction = top / bottom;
+
+        return Math.pow(1.0 - fraction, weight / 4.0);
+    }
+
+    private double calculateESI(NasaPlanetDTO dto) {
+        if(!(dto.getPlRade() == null || dto.getPlDens() == null || dto.getPlEqt() == null || dto.getPlBmasse() == null)) {
+            double radius = dto.getPlRade();
+            double density = dto.getPlDens();
+            Integer temp = dto.getPlEqt();
+            double mass = dto.getPlBmasse();
+
+            double escapeVel = Math.sqrt(mass / radius);
+            
+            return 2;
+
+        } else {
+            return 0.0;
+        }
+    }
 }
 
 

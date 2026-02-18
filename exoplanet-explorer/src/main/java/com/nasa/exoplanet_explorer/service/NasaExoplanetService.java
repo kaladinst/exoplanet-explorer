@@ -59,7 +59,7 @@ public class NasaExoplanetService {
                 for(NasaPlanetDTO planet : planetResponse) {
                     double esi = calculateESI(planet);
 
-                    if(esi > 0.8) {
+                    if(esi > 0.0) {
                         if(!exoplanetRepository.existsByName(planet.getPlName())) {
                             Exoplanet exoplanet = mapToEntity(planet, esi);
                             exoplanetRepository.save(exoplanet);

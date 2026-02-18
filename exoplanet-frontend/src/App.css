@@ -3,6 +3,8 @@
   background-color: #1a1a1a;
   color: #ffffff;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  justify-content: center;
+  align-items: center;
 }
 
 .container {

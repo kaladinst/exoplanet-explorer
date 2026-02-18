@@ -11,5 +11,5 @@ public interface ExoplanetRepository extends JpaRepository<Exoplanet, Long> {
     boolean existsByName(String name);
 
     List<Exoplanet> findTop10ByOrderByEsiScoreDesc();
-
+    List<Exoplanet> findByEsiScoreBetween( double min, double max);
 }

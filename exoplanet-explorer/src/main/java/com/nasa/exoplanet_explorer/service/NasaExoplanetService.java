@@ -89,4 +89,36 @@ public class NasaExoplanetService {
             Integer temp = dto.getPlEqt();
             double mass = dto.getPlBmasse();
 
-            double escapeVel = Ma
+            double escapeVel = Math.sqrt(mass / radius);
+
+            double radiusScore = calculateComponent(radius, 1.0, 0.57);
+            double densityScore = calculateComponent(density, 5.51, 1.07);
+            double escapeVelScore = calculateComponent(escapeVel, 1.0, 0.70);
+            double tempScore = calculateComponent(temp, 288.0, 5.58);
+            double result = radiusScore * densityScore* escapeVelScore* tempScore;
+            return result;
+
+        } else {
+            return 0.0;
+        }
+    }
+
+    private Exoplanet mapToEntity(NasaPlanetDTO dto, double esi) {
+        Exoplanet planet = new Exoplanet();
+
+        planet.setName(dto.getPlName());
+        planet.setRadius(dto.getPlRade());
+        planet.setDensity(dto.getPlDens());
+        planet.setMass(dto.getPlBmasse());
+        planet.setDiscoveryYear(dto.getDiscYear());
+        planet.setEquilibriumTemp(dto.getPlEqt());
+        planet.setDiscoveryMethod(dto.getDiscoveryMethod());
+        planet.setFlux(dto.getPlInsol());
+
+        planet.setEsiScore(esi);
+
+        return planet;
+    }
+}
+
+

@@ -3,10 +3,7 @@ package com.nasa.exoplanet_explorer.controller;
 import com.nasa.exoplanet_explorer.model.Exoplanet;
 import com.nasa.exoplanet_explorer.repository.ExoplanetRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,4 +23,9 @@ public class ExoplanetController {
     public List<Exoplanet> getAllPlanets() {
         return exoplanetRepository.findAll();
     }
+    @GetMapping("/between")
+    public List<Exoplanet> getBetween(@RequestParam double min, @RequestParam double max) {
+        return exoplanetRepository.findByEsiScoreBetween(min,max);
+    }
+
 }

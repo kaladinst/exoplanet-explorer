@@ -1,10 +1,11 @@
 import {useState, useEffect } from  'react'
 import "./App.css"
+import { Globe, Flame, Leaf, Star } from 'lucide-react';
 
 const filters = [
-    { label: "🌍 Earth-Like (> 0.8)",   min: 0.8, max: 1.0, color: "#42d392" },
-    { label: "🌿 Potential (0.6 - 0.8)", min: 0.6, max: 0.8, color: "#f59e0b" },
-    { label: "🔥 Hostile (< 0.6)",      min: 0.0, max: 0.6, color: "#ef4444" }
+    { label: "Earth-Like (> 0.8)",   min: 0.8, max: 1.0, color: "#42d392", icon: Globe },
+    { label: "Potential (0.6 - 0.8)", min: 0.6, max: 0.8, color: "#f59e0b", icon: Leaf  },
+    { label: "Hostile (< 0.6)",      min: 0.0, max: 0.6, color: "#ef4444", icon: Flame }
 ];
 
 function App() {
@@ -33,28 +34,44 @@ function App() {
             <h1>🪐 Exoplanet Explorer</h1>
 <div className="filter-container" style={{ marginBottom: "2rem", display: "flex", gap: "10px", justifyContent: "center", flexWrap: "wrap" }}>
                 
+{/* Reset Button (Top 10) */}
                 <button 
                     onClick={() => setSelectedFilter(null)}
                     style={{
-                        backgroundColor: selectedFilter === null ? "#646cff" : "#333",
-                        border: "1px solid #555"
+                        backgroundColor: selectedFilter === null ? "#646cff" : "#2a2a2a",
+                        border: "1px solid #555",
+                        // New Flexbox Styles for Alignment
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        padding: "10px 20px"
                     }}
                 >
-                    ⭐ Top 10
+                    <Star size={18} /> {/* The Star Icon */}
+                    Top 10
                 </button>
 
+                {/* The 3 Category Buttons */}
                 {filters.map((filter) => (
                     <button
                         key={filter.label}
                         onClick={() => setSelectedFilter(filter)}
                         style={{
-                            backgroundColor: selectedFilter === filter ? filter.color : "#333",
+                            backgroundColor: selectedFilter === filter ? filter.color : "#2a2a2a",
                             borderColor: filter.color, 
                             borderWidth: "1px",
                             borderStyle: "solid",
-                            color: "white"
+                            color: selectedFilter === filter ? "#000" : "white", // Black text on colored background looks better
+                            fontWeight: "bold",
+                            // New Flexbox Styles for Alignment
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "8px",
+                            padding: "10px 20px"
                         }}
                     >
+                        {/* Render the specific icon for this filter */}
+                        <filter.icon size={18} /> 
                         {filter.label}
                     </button>
                 ))}

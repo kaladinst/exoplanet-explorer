@@ -23,7 +23,7 @@ public class NasaExoplanetService {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     @Data
-    private static class NasaPlanetDTO {
+    static class NasaPlanetDTO {
         @JsonProperty("pl_name")
         private String plName;
 

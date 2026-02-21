@@ -34,24 +34,21 @@ function App() {
             <h1>🪐 Exoplanet Explorer</h1>
 <div className="filter-container" style={{ marginBottom: "2rem", display: "flex", gap: "10px", justifyContent: "center", flexWrap: "wrap" }}>
                 
-{/* Reset Button (Top 10) */}
                 <button 
                     onClick={() => setSelectedFilter(null)}
                     style={{
                         backgroundColor: selectedFilter === null ? "#646cff" : "#2a2a2a",
                         border: "1px solid #555",
-                        // New Flexbox Styles for Alignment
                         display: "flex",
                         alignItems: "center",
                         gap: "8px",
                         padding: "10px 20px"
                     }}
                 >
-                    <Star size={18} /> {/* The Star Icon */}
+                    <Star size={18} />
                     Top 10
                 </button>
 
-                {/* The 3 Category Buttons */}
                 {filters.map((filter) => (
                     <button
                         key={filter.label}
@@ -61,16 +58,15 @@ function App() {
                             borderColor: filter.color, 
                             borderWidth: "1px",
                             borderStyle: "solid",
-                            color: selectedFilter === filter ? "#000" : "white", // Black text on colored background looks better
+                            color: selectedFilter === filter ? "#000" : "white", 
                             fontWeight: "bold",
-                            // New Flexbox Styles for Alignment
                             display: "flex",
                             alignItems: "center",
                             gap: "8px",
                             padding: "10px 20px"
                         }}
                     >
-                        {/* Render the specific icon for this filter */}
+                        
                         <filter.icon size={18} /> 
                         {filter.label}
                     </button>

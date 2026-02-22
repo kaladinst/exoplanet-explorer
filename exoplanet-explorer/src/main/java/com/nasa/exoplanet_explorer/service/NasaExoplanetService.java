@@ -53,6 +53,10 @@ public class NasaExoplanetService {
     public void fetchExoplanets() {
         RestTemplate restTemplate = new RestTemplate();
         NasaPlanetDTO[] planetResponse = restTemplate.getForObject(NASA_API_URL, NasaPlanetDTO[].class);
+        if (exoplanetRepository.count() > 0) {
+            System.out.println("Database is already populated! Skipping NASA API fetch.");
+            return;
+        }
 
         if(planetResponse != null && planetResponse.length != 0) {
             System.out.println("✅ FETCHED " + planetResponse.length + " PLANETS");

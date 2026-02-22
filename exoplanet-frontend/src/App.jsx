@@ -14,12 +14,11 @@ function App() {
     const [selectedFilter, setSelectedFilter] = useState(null)
 
     useEffect(() => {
-        let url = "http://localhost:8080/api/planets/top-10";
+        let url = "https://exoplanet-explorer-t2zf.onrender.com/api/planets/top-10";
 
         if (selectedFilter) {
-            url = `http://localhost:8080/api/planets/between?min=${selectedFilter.min}&max=${selectedFilter.max}`;
+            url = `https://exoplanet-explorer-t2zf.onrender.com/api/planets/between?min=${selectedFilter.min}&max=${selectedFilter.max}`;
         }
-
         fetch(url)
             .then(response => response.json())
             .then(data => {

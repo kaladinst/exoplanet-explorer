@@ -6,6 +6,7 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-blueviolet)
 
 **Live Demo:** [Click here to view the live application](https://exoplanet-frontend.onrender.com/)
+<img width="1919" height="946" alt="Screenshot 2026-02-22 151546" src="https://github.com/user-attachments/assets/84211dab-f5a5-4195-b64d-8a46195496f4" />
 
 ## 📖 Overview
 Exoplanet Explorer is a full-stack web application designed to fetch, process, and visualize real-time astronomical data. By integrating directly with the **NASA/Caltech Exoplanet Archive API**, the application processes over 6,000 discovered celestial bodies, filtering them based on their physical characteristics to highlight potentially habitable worlds.

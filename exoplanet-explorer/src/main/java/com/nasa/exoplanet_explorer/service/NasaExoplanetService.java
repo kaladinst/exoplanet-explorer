@@ -48,7 +48,7 @@ public class NasaExoplanetService {
         @JsonProperty("discoverymethod")
         private String discoveryMethod;
     }
-
+    java.util.List<Exoplanet> batchList = new java.util.ArrayList<>();
     @EventListener(ApplicationReadyEvent.class)
     public void fetchExoplanets() {
         RestTemplate restTemplate = new RestTemplate();
@@ -60,14 +60,25 @@ public class NasaExoplanetService {
                     double esi = calculateESI(planet);
 
                     if(esi > 0.0) {
-                        if(!exoplanetRepository.existsByName(planet.getPlName())) {
                             Exoplanet exoplanet = mapToEntity(planet, esi);
-                            exoplanetRepository.save(exoplanet);
+                                batchList.add(exoplanet);
                             System.out.println("SAVED: " + exoplanet.getName() + " ESI: " + String.format("%.3f" , esi));
+
+                            System.out.printf("Candidate: %-20s | ESI: %.3f%n" , planet.getPlName(), esi);
+                        if (batchList.size() == 50) {
+                            exoplanetRepository.saveAll(batchList);
+                            exoplanetRepository.flush();
+                            batchList.clear();
+                            System.out.println("--- Shipped a batch of 50 to the cloud ---");
                         }
-                        System.out.printf("Candidate: %-20s | ESI: %.3f%n" , planet.getPlName(), esi);
                     }
                 }
+
+            if (!batchList.isEmpty()) {
+                exoplanetRepository.saveAll(batchList);
+                exoplanetRepository.flush();
+                System.out.println("--- Shipped the final batch ---");
+            }
         } else {
             System.out.println("No Data Found");
             return;

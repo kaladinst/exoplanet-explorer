@@ -5,7 +5,7 @@
 ![React](https://img.shields.io/badge/React-Vite-blue)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-blueviolet)
 
-**Live Demo:** [Click here to view the live application]([[INSERT YOUR RENDER FRONTEND URL HERE]](https://exoplanet-frontend.onrender.com/))
+**Live Demo:** [Click here to view the live application](https://exoplanet-frontend.onrender.com/)
 
 ## 📖 Overview
 Exoplanet Explorer is a full-stack web application designed to fetch, process, and visualize real-time astronomical data. By integrating directly with the **NASA/Caltech Exoplanet Archive API**, the application processes over 6,000 discovered celestial bodies, filtering them based on their physical characteristics to highlight potentially habitable worlds.
